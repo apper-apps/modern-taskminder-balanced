@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { motion, AnimatePresence } from 'framer-motion';
 import getIcon from './utils/iconUtils';
+import { useAuth } from './context/AuthContext';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 
@@ -19,6 +20,8 @@ function App() {
     }
     return false;
   });
+
+  const { isAuthenticated, currentUser } = useAuth();
 
   useEffect(() => {
     // Apply dark mode class to document
@@ -60,7 +63,15 @@ function App() {
             </motion.div>
             <h1 className="text-xl font-semibold text-surface-800 dark:text-white">
               TaskMinder
+            {isAuthenticated && (
+              <span className="text-xs px-2 py-0.5 ml-2 bg-primary-light/20 text-primary-dark dark:text-primary-light rounded-full">
+                {currentUser.username}
+              </span>
+            )}
             </h1>
+
+          <div className="flex-1"></div>
+          
           </div>
           
           <button
@@ -107,6 +118,7 @@ function App() {
         draggable
         pauseOnHover
         theme={darkMode ? "dark" : "light"}
+        limit={3}
         toastClassName="rounded-xl shadow-soft"
       />
     </div>
